@@ -16,45 +16,33 @@ import data
 
 machine_money = 0
 
-# print("-----MENU-----")
-# print("1. Espresso - ₱20.50")
-# print("2. Latte - ₱40.50")
-# print("3. Cappuccino - ₱50")
-# print("\nPlease type in your order.")
+print("-----MENU-----")
+print("1. Espresso - ₱20.50")
+print("2. Latte - ₱40.50")
+print("3. Cappuccino - ₱50")
+print("\nPlease type in your order.")
+
+def print_report():
+    for resource in data.resources:
+        print(f"{resource}: {data.resources[resource]}")
 
 order = input("What is your order: ").lower()
-# user_money = float(input("Please insert your money: "))
 
-# # print(data.MENU[order])
-# print(data.resources)
-# print(data.MENU[order]["ingredients"]["water"])
-# coffee_cost = data.MENU[order]["cost"]
+# if order == "report":
+#     print_report()
 
-# if user_money > coffee_cost:
-#     print(f"\nHere is your ☕ {order}.\nHere is your change: ₱{user_money - coffee_cost}")
-#     machine_money += coffee_cost
-#     data.resources["water"] -= data.MENU[order]["ingredients"]["water"]
-# elif user_money < coffee_cost:
-#     print(f"\nYour money is not enough.\nMoney refunded.")
+user_money = float(input("Please insert your money: "))
+coffee_cost = data.MENU[order]["cost"]
 
-# print(data.resources)
-    # "espresso": {
-    #     "ingredients": {
-    #         "water": 50,
-    #         "coffee": 18,
-    #     },
-    #     "cost": 20.50,
-    # },
+if user_money > coffee_cost:
+    print(f"\nHere is your ☕ {order}.\nHere is your change: ₱{user_money - coffee_cost}")
+    machine_money += coffee_cost
+    
+    # for deducting machine resources based on coffee ingredient
+    for resource in data.MENU[order]["ingredients"]:
+        data.resources[resource] -= data.MENU[order]["ingredients"][resource]
 
-# for machine_resource in data.resources:
-#     machine_resource -= 50
-#     print(machine_resource)
-print(data.MENU[order])
-print(data.resources)
+elif user_money < coffee_cost:
+    print(f"\nYour money is not enough.\nMoney refunded.")
 
-# for deducting machine resources based on coffee ingredient
-for i in data.MENU[order]["ingredients"]:
-    data.resources[i] -= data.MENU[order]["ingredients"][i]
 
-print(data.MENU[order])
-print(data.resources)
