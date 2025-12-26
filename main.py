@@ -1,18 +1,5 @@
 import data
-
-# TODO 1: print coffee options (espresso, latte, cappuccino)
-# each coffee has its own ingredients and cost
-# ingredients - machine resources
-# machine money += cost of coffee
-# if the machine has insufficient resources, it will tell the user (Sorry, not enough {resource})
-# user will input money, deduct money by coffee cost
-    # if the users money is insufficient, refund money
-    # if money is more than enough give back change (print)
-    # if just enough, no change
-
-# TODO 2: print report
-# if the user instead inputs "report" it will list the current resources of the machine
-# remaining water, milk, coffee, and the money accumulated.
+import sys
 
 machine_money = 0
 
@@ -23,37 +10,45 @@ print("3. Cappuccino - ₱50")
 print("\nPlease type in your order.")
 
 def print_report():
+    """Prints the remaining resources and the earnings."""
     for resource in data.resources:
         print(f"{resource}: {data.resources[resource]}")
-    print(f"Earnings: ₱{machine_money}")
+    print(f"Earnings: ₱{machine_money}\n")
 
+# can be improved by having it specify the ingredients that aren't enough
 def check_resources(order):
+    """Checks if the machine resources are enough to make the order"""
     for resource in data.MENU[order]["ingredients"]:
         if data.resources[resource] < data.MENU[order]["ingredients"][resource]:
             return False
     return True
 
-order = input("What is your order: ").lower()
+# needs to fix where the order should only be the ones on the menu to avoid breaking it.
+while True:
+    order = input("What is your order: ").lower()
 
-# if order == "report":
-#     print_report()
+    if order == "off":
+        sys.exit()
 
-user_money = float(input("Please insert your money: "))
-coffee_cost = data.MENU[order]["cost"]
-is_resource_enough = check_resources(order)
+    if order == "report":
+        print_report()
+        continue
 
-if user_money > coffee_cost and is_resource_enough == True:
-    print(f"\nHere is your ☕ {order}.\nHere is your change: ₱{user_money - coffee_cost}")
-    machine_money += coffee_cost
-    
-    # for deducting machine resources based on coffee ingredient
-    for resource in data.MENU[order]["ingredients"]:
-        data.resources[resource] -= data.MENU[order]["ingredients"][resource]
-elif is_resource_enough == False:
-    print("Sorry, the machine doesn't have enough ingredients to make your coffee.")
-elif user_money < coffee_cost:
-    print(f"\nYour money is not enough.\nMoney refunded.")
+    user_money = float(input("Please insert your money: "))
+    coffee_cost = data.MENU[order]["cost"]
+    is_resource_enough = check_resources(order)
 
-print(data.resources)
+    if user_money > coffee_cost and is_resource_enough == True:
+        print(f"\nHere is your ☕ {order}.\nHere is your change: ₱{user_money - coffee_cost}\n")
+        machine_money += coffee_cost
+        
+        # for deducting machine resources based on coffee ingredient
+        for resource in data.MENU[order]["ingredients"]:
+            data.resources[resource] -= data.MENU[order]["ingredients"][resource]
+    elif is_resource_enough == False:
+        print("\nSorry, the machine doesn't have enough ingredients to make your coffee.\nMoney refunded.")
+    elif user_money < coffee_cost:
+        print(f"\nYour money is not enough.\nMoney refunded.")
+
 
 
