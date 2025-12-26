@@ -1,4 +1,4 @@
-# coffee_machine
+# Coffee Machine
 
 This project simulates how a basic coffee vending machine works. Users can order drinks from a menu, insert money, and receive their coffee if there are enough resources available. The machine keeps track of remaining ingredients and total earnings throughout the session.
 
